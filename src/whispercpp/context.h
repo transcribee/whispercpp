@@ -224,8 +224,8 @@ public:
   // Set target language.
   // For auto-detection, set this either to 'auto' or nullptr.
   // defaults to 'en'.
-  void set_language(std::string *language);
-  std::string get_language();
+  void set_language(const char *language);
+  const char * get_language();
 
   // Set suppress_blank. See
   // https://github.com/openai/whisper/blob/f82bc59f5ea234d4b97fb2860842ed38519f7e65/whisper/decoding.py#L89
