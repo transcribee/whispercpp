@@ -24,6 +24,19 @@ EXAMPLE_HEADERS = [
     "examples/dr_wav.h",
 ]
 
+
+OPTFLAGS = selects.with_or({
+    "//conditions:default": [],
+    "@bazel_tools//src/conditions:linux_x86_64": [
+        "-mavx",
+        "-mavx2",
+        "-mfma",
+        "-mf16c",
+        "-msse3",
+    ],
+})
+
+
 CFLAGS = [
     "-fexceptions",
     "-Wunused-function",
@@ -31,7 +44,7 @@ CFLAGS = [
     "-std=c11",
     "-fPIC",
     "-pthread",
-]
+] + OPTFLAGS
 
 CXXFLAGS = [
     "-fexceptions",
@@ -40,20 +53,22 @@ CXXFLAGS = [
     "-std=c++11",
     "-fPIC",
     "-pthread",
-]
+] + OPTFLAGS
+
+LINKOPTS = selects.with_or({
+    "//conditions:default": [],
+    "@bazel_tools//src/conditions:darwin": [
+        "-framework",
+        "Accelerate",
+    ],
+})
 
 cc_library(
     name = "common",
     srcs = ["examples/common.cpp"],
     hdrs = EXAMPLE_HEADERS,
     copts = CXXFLAGS,
-    linkopts = selects.with_or({
-        "//conditions:default": [],
-        "@bazel_tools//src/conditions:darwin": [
-            "-framework",
-            "Accelerate",
-        ],
-    }),
+    linkopts = LINKOPTS,
 )
 
 cc_library(
@@ -61,13 +76,7 @@ cc_library(
     srcs = ["examples/common-sdl.cpp"],
     hdrs = EXAMPLE_HEADERS,
     copts = CXXFLAGS,
-    linkopts = selects.with_or({
-        "//conditions:default": [],
-        "@bazel_tools//src/conditions:darwin": [
-            "-framework",
-            "Accelerate",
-        ],
-    }),
+    linkopts = LINKOPTS,
 )
 
 cc_library(
@@ -75,13 +84,7 @@ cc_library(
     srcs = ["ggml.c"],
     hdrs = HEADERS,
     copts = CFLAGS,
-    linkopts = selects.with_or({
-        "//conditions:default": [],
-        "@bazel_tools//src/conditions:darwin": [
-            "-framework",
-            "Accelerate",
-        ],
-    }),
+    linkopts = LINKOPTS,
 )
 
 cc_library(
@@ -89,12 +92,6 @@ cc_library(
     srcs = ["whisper.cpp"],
     hdrs = HEADERS + EXAMPLE_HEADERS,
     copts = CXXFLAGS,
-    linkopts = selects.with_or({
-        "//conditions:default": [],
-        "@bazel_tools//src/conditions:darwin": [
-            "-framework",
-            "Accelerate",
-        ],
-    }),
+    linkopts = LINKOPTS,
     deps = [":ggml"],
 )
