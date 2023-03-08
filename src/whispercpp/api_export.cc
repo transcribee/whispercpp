@@ -172,7 +172,47 @@ PYBIND11_MODULE(api, m) {
              }, std::move(callback), std::move(user_data), _1, _2));
            },
            "callback"_a, "user_data"_a = py::none(),
-           py::keep_alive<1, 2>(), py::keep_alive<1, 3>());
+           py::keep_alive<1, 2>(), py::keep_alive<1, 3>())
+    .def("__repr__", [](Params &self) {
+      std::stringstream s;
+        s << "Params(" << std::endl
+<<       "strategy = "                       <<  self.wfp.strategy << std::endl
+<<       "n_threads = "                      <<  self.wfp.n_threads << std::endl
+<<       "n_max_text_ctx = "                 <<  self.wfp.n_max_text_ctx << std::endl
+<<       "offset_ms = "                      <<  self.wfp.offset_ms << std::endl
+<<       "duration_ms = "                    <<  self.wfp.duration_ms << std::endl
+<<       "translate = "                      <<  self.wfp.translate << std::endl
+<<       "no_context = "                     <<  self.wfp.no_context << std::endl
+<<       "single_segment = "                 <<  self.wfp.single_segment << std::endl
+<<       "print_special = "                  <<  self.wfp.print_special << std::endl
+<<       "print_progress = "                 <<  self.wfp.print_progress << std::endl
+<<       "print_realtime = "                 <<  self.wfp.print_realtime << std::endl
+<<       "print_timestamps = "               <<  self.wfp.print_timestamps << std::endl
+<<       "token_timestamps = "               <<  self.wfp.token_timestamps << std::endl
+<<       "thold_pt = "                       <<  self.wfp.thold_pt << std::endl
+<<       "thold_ptsum = "                    <<  self.wfp.thold_ptsum << std::endl
+<<       "max_len = "                        <<  self.wfp.max_len << std::endl
+<<       "split_on_word = "                  <<  self.wfp.split_on_word << std::endl
+<<       "max_tokens = "                     <<  self.wfp.max_tokens << std::endl
+<<       "speed_up = "                       <<  self.wfp.speed_up << std::endl
+<<       "audio_ctx = "                      <<  self.wfp.audio_ctx << std::endl
+<<       "prompt_n_tokens = "                <<  self.wfp.prompt_n_tokens << std::endl
+<<       "language = "                       <<  self.wfp.language << std::endl
+<<       "suppress_blank = "                 <<  self.wfp.suppress_blank << std::endl
+<<       "suppress_non_speech_tokens = "     <<  self.wfp.suppress_non_speech_tokens << std::endl
+<<       "temperature = "                    <<  self.wfp.temperature << std::endl
+<<       "max_initial_ts = "                 <<  self.wfp.max_initial_ts << std::endl
+<<       "length_penalty = "                 <<  self.wfp.length_penalty << std::endl
+<<       "temperature_inc = "                <<  self.wfp.temperature_inc << std::endl
+<<       "entropy_thold = "                  <<  self.wfp.entropy_thold << std::endl
+<<       "logprob_thold = "                  <<  self.wfp.logprob_thold << std::endl
+<<       "no_speech_thold = "                <<  self.wfp.no_speech_thold << std::endl
+<<       "greedy.best_of = "                 <<  self.wfp.greedy.best_of << std::endl
+<<       "beam_search.beam_size = "          <<  self.wfp.beam_search.beam_size << std::endl
+<<       "beam_search.patience = "           <<  self.wfp.beam_search.patience << std::endl
+          << ")";
+        return s.str();
+    });
   // TODO: encoder_begin_callback and logits_filter_callback are still missing
 }
 }; // namespace whisper
