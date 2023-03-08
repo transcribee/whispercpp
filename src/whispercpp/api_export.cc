@@ -53,43 +53,20 @@ PYBIND11_MODULE(api, m) {
 
   py::class_<SamplingGreedy>(m, "SamplingGreedyStrategy")
       .def(py::init<>())
-      .def_property(
-          "best_of", [](SamplingGreedy &self) { return self.best_of; },
-          [](SamplingGreedy &self, int best_of) { self.best_of = best_of; });
+      .def_readwrite("best_of", &SamplingGreedy::best_of);
 
   py::class_<SamplingBeamSearch>(m, "SamplingBeamSearchStrategy")
       .def(py::init<>())
-      .def_property(
-          "beam_size", [](SamplingBeamSearch &self) { return self.beam_size; },
-          [](SamplingBeamSearch &self, int beam_size) {
-            self.beam_size = beam_size;
-          })
-      .def_property(
-          "patience", [](SamplingBeamSearch &self) { return self.patience; },
-          [](SamplingBeamSearch &self, float patience) {
-            self.patience = patience;
-          });
+      .def_readwrite("beam_size", &SamplingBeamSearch::beam_size)
+      .def_readwrite("patience", &SamplingBeamSearch::patience);
 
   py::class_<SamplingStrategies>(m, "SamplingStrategies",
                                  "Available sampling strategy for whisper")
       .def_static("from_strategy_type", &SamplingStrategies::from_strategy_type,
                   "strategy"_a)
-      .def_property(
-          "type", [](SamplingStrategies &self) { return self.type; },
-          [](SamplingStrategies &self, SamplingStrategies::StrategyType type) {
-            self.type = type;
-          })
-      .def_property(
-          "greedy", [](SamplingStrategies &self) { return self.greedy; },
-          [](SamplingStrategies &self, SamplingGreedy greedy) {
-            self.greedy = greedy;
-          })
-      .def_property(
-          "beam_search",
-          [](SamplingStrategies &self) { return self.beam_search; },
-          [](SamplingStrategies &self, SamplingBeamSearch beam_search) {
-            self.beam_search = beam_search;
-          });
+      .def_readwrite("type", &SamplingStrategies::type)
+      .def_readwrite("greedy", &SamplingStrategies::greedy)
+      .def_readwrite("beam_search", &SamplingStrategies::beam_search);
 
   py::class_<Params>(m, "Params", "Whisper parameters container")
       .def_static("from_sampling_strategy", &Params::from_sampling_strategy,
