@@ -73,8 +73,8 @@ def internal_deps():
         build_file = Label("//extern:whispercpp.BUILD"),
         init_submodules = True,
         recursive_init_submodules = True,
-        remote = "https://github.com/ggerganov/whisper.cpp.git",
-        commit = "72af0f56975bfea20ff340777b3c940b006bf42a",
+        remote = "https://github.com/transcribee/whisper.cpp.git",
+        commit = "603f28200a122403641a2c6f07e1f181d52d1994",
         shallow_since = "1677774736 +0200",
     )
 
