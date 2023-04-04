@@ -4,5 +4,5 @@
 	branch = master
 [submodule "extern/whispercpp"]
 	path = extern/whispercpp
-	url = git@github.com:transcribee/whisper.cpp.git
+	url = https://github.com/transcribee/whisper.cpp.git
 	branch = pajowu/progress_callback
