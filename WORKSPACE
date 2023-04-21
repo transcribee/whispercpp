@@ -56,7 +56,9 @@ yarn_install(
 
 load("@rules_foreign_cc//foreign_cc:repositories.bzl", "rules_foreign_cc_dependencies")
 
-rules_foreign_cc_dependencies()
+rules_foreign_cc_dependencies(
+    register_preinstalled_tools=True, register_built_tools=False, register_default_tools=False
+)
 
 load("@rules_python//python:repositories.bzl", "py_repositories")
 
